@@ -1,0 +1,2515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-10-10 Sun 14:39 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Functional Programming: Assignment 2</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Matt Teichman" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Functional Programming: Assignment 2</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org651fba8">1. Lab</a>
+<ul>
+<li><a href="#org642cb7f">1.1. Trees</a>
+<ul>
+<li><a href="#orgb9c1f20">1.1.1. Exercise: a tree with five nodes</a></li>
+<li><a href="#org8049c03">1.1.2. Exercise: a tree with just one node</a></li>
+<li><a href="#org429ce73">1.1.3. Exercise: n-ary extravaganza</a></li>
+<li><a href="#orga49c5bb">1.1.4. Exercise: <code>treeElem</code></a></li>
+<li><a href="#org1d32271">1.1.5. Exercise: <code>depth</code></a></li>
+<li><a href="#org7347e01">1.1.6. Exercise: <code>combine</code></a></li>
+</ul>
+</li>
+<li><a href="#org4f2b4d9">1.2. Downward Paths</a>
+<ul>
+<li><a href="#orgfee4c39">1.2.1. Exercise: <code>treeInsert</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org01a36f4">2. Short Exercises</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org8c43999">2.0.1. Exercise: <code>treeDelete</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org8644cc0">3. Project</a>
+<ul>
+<li><a href="#org0cf1802">3.1. Interlude: Type Aliases</a></li>
+<li><a href="#orga647f35">3.2. First Steps</a>
+<ul>
+<li><a href="#org6f204dd">3.2.1. Items</a></li>
+<li><a href="#org06f679f">3.2.2. Exercise: Item Names</a></li>
+<li><a href="#org75cfcd3">3.2.3. Exercise: <code>Items</code></a></li>
+</ul>
+</li>
+<li><a href="#org41b676e">3.3. Interlude: Lookup Tables in Haskell</a></li>
+<li><a href="#orgcefd200">3.4. Interlude: Qualified Names</a></li>
+<li><a href="#org8ab8d1f">3.5. The Universe</a>
+<ul>
+<li><a href="#org97114c5">3.5.1. Exercise: <code>Universe</code></a></li>
+<li><a href="#orgb1714b0">3.5.2. Exercise: <code>mkUniverse</code></a></li>
+</ul>
+</li>
+<li><a href="#orgd80eaf8">3.6. Direction</a>
+<ul>
+<li><a href="#org6874233">3.6.1. Exercise: <code>Direction</code> datatype</a></li>
+</ul>
+</li>
+<li><a href="#orga5b2113">3.7. Rooms</a>
+<ul>
+<li><a href="#org3d328a1">3.7.1. Exercise: Room names</a></li>
+<li><a href="#org64c76c6">3.7.2. Exercise: <code>Exit</code></a></li>
+<li><a href="#orgabe9884">3.7.3. Exercise: <code>Room</code> datatype</a></li>
+</ul>
+</li>
+<li><a href="#orgfad1c9f">3.8. The Player</a>
+<ul>
+<li><a href="#org7135a64">3.8.1. Exercise: <code>Player</code></a></li>
+<li><a href="#org27fe1f4">3.8.2. Exercise: <code>addItem</code></a></li>
+<li><a href="#orgac48216">3.8.3. Exercise: <code>removeItem</code></a></li>
+<li><a href="#org2355a78">3.8.4. Exercise: <code>newLocation</code></a></li>
+<li><a href="#orgd951b94">3.8.5. Exercise: <code>isCarryingAnything</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org05249a2">4. That's It!</a>
+<ul>
+<li><a href="#org9939e37">4.1. Submitting</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+This assignment is due by 5:30 pm on Wednesday, 10/13.  Instructions
+on how to submit it are at the end of this document.
+</p>
+
+<div id="outline-container-org651fba8" class="outline-2">
+<h2 id="org651fba8"><span class="section-number-2">1</span> Lab</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Just like last week, we're going to ask you to enter the root
+directory of the <code>git</code> repo for your second assignment and create a
+directory called <code>assignment2</code>.  Then and create a <code>stack</code> project for
+the second lab inside <code>assignment2</code>:
+</p>
+
+<pre class="example" id="orgeee47d1">
+$ mkdir assignment2
+$ cd assignment2
+$ stack new lab2 simple
+</pre>
+</div>
+
+
+<div id="outline-container-org642cb7f" class="outline-3">
+<h3 id="org642cb7f"><span class="section-number-3">1.1</span> Trees</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+The next thing you're going to do this week is practice writing
+pattern matches on algebraic datatype values that were defined in your
+code.  Let's begin by messing around with a simple tree data
+structure.
+</p>
+
+<p>
+Copy and paste the following code into your <code>lab2/src/Main.hs</code> file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ff2c4b; font-weight: bold;">data</span> <span style="color: #ff9eb8;">Tree</span> a <span style="color: #ffa724;">=</span> <span style="color: #ff9eb8;">Node</span> a [<span style="color: #ff9eb8;">Tree</span> a]
+  <span style="color: #ff2c4b; font-weight: bold;">deriving</span> <span style="color: #ff9eb8;">Show</span>
+</pre>
+</div>
+
+<p>
+A <code>Tree a</code>, as we've defined it, is an n-ary branching tree that can
+contain an <code>a</code> (whatever <code>a</code> is in this case&#x2013;some concrete type).
+E.g. a <code>Tree Integer</code> is a tree carrying an integer value at all of
+its nodes, a <code>Tree Bool</code> is a tree carrying a boolean value at all of
+its nodes, and so forth.
+</p>
+
+<p>
+The first thing we'll practice is how to build values of type <code>Tree a</code>
+(for some <code>a</code>), and what those intuitively look like in picture form.
+</p>
+</div>
+
+<div id="outline-container-orgb9c1f20" class="outline-4">
+<h4 id="orgb9c1f20"><span class="section-number-4">1.1.1</span> Exercise: a tree with five nodes</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+In <code>src/Main.hs</code>, define a value called <code>tree1</code> of the following type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">tree1</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">Tree</span> <span style="color: #ff9eb8;">Integer</span>
+</pre>
+</div>
+
+<p>
+Define <code>tree1</code> so as to instantiate the following hierarchical
+structure, with the following integers at each node:
+</p>
+
+<center>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="55.237896mm"
+   height="50.353065mm"
+   viewBox="0 0 55.237896 50.353065"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <g
+     id="layer1"
+     transform="translate(-61.757048,-99.506041)">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 85.770277,119.54422 7.428754,-9.96486"
+       id="path46855" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 99.853368,109.48086 8.054192,10.16186"
+       id="path46857" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 79.249016,128.30226 -8.537661,11.47977"
+       id="path46859" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 85.654062,128.38283 7.983633,11.31863"
+       id="path46861" />
+    <ellipse
+       style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625c70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path35"
+       cx="96.462166"
+       cy="105.20222"
+       rx="5.46"
+       ry="5.4596777" />
+    <circle
+       style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625c70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path35-0"
+       cx="82.507149"
+       cy="123.92136"
+       r="5.4596777" />
+    <circle
+       style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625c70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path35-06"
+       cx="111.29877"
+       cy="123.92136"
+       r="5.4596777" />
+    <circle
+       style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625c70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path35-0-4"
+       cx="67.453224"
+       cy="144.16293"
+       r="5.4596777" />
+    <circle
+       style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625c70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path35-06-6"
+       cx="96.784615"
+       cy="144.16293"
+       r="5.4596777" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="95.018967"
+       y="106.99886"
+       id="text31059"><tspan
+	 id="tspan31057"
+	 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#625c70;fill-opacity:1;stroke-width:0.264583"
+	 x="95.018967"
+	 y="106.99886">0</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="81.015099"
+       y="125.66471"
+       id="text31059-6"><tspan
+	 id="tspan31057-4"
+	 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#625c70;fill-opacity:1;stroke-width:0.264583"
+	 x="81.015099"
+	 y="125.66471">1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="66.088387"
+       y="145.82999"
+       id="text31059-6-5"><tspan
+	 id="tspan31057-4-0"
+	 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#625c70;fill-opacity:1;stroke-width:0.264583"
+	 x="66.088387"
+	 y="145.82999">2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="95.172379"
+       y="145.9444"
+       id="text31059-6-8"><tspan
+	 id="tspan31057-4-7"
+	 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#625c70;fill-opacity:1;stroke-width:0.264583"
+	 x="95.172379"
+	 y="145.9444">4</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="109.77646"
+       y="125.7348"
+       id="text31059-6-7"><tspan
+	 id="tspan31057-4-2"
+	 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#625c70;fill-opacity:1;stroke-width:0.264583"
+	 x="109.77646"
+	 y="125.7348">3</tspan></text>
+  </g>
+</svg>
+
+</center>
+<p />
+</div>
+</div>
+
+
+<div id="outline-container-org8049c03" class="outline-4">
+<h4 id="org8049c03"><span class="section-number-4">1.1.2</span> Exercise: a tree with just one node</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+In <code>src/Main.hs</code>, define a value called <code>tree2</code> with the following
+type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">tree2</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">Tree</span> <span style="color: #ff9eb8;">String</span>
+</pre>
+</div>
+
+<p>
+Define <code>tree2</code> so as to instantiate this structure:
+</p>
+
+<center>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="11.392355mm"
+   height="11.392355mm"
+   viewBox="0 0 11.392355 11.392355"
+   version="1.1"
+   id="svg46990"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs46987" />
+  <g
+     id="g33898-1"
+     transform="translate(-91.268185,-98.470105)">
+    <circle
+       style="opacity:1;fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625c70;stroke-width:0.273;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path35-0"
+       cx="96.964363"
+       cy="104.16628"
+       r="5.4596777" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778px;line-height:3.74px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';text-align:start;letter-spacing:-0.0105833px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="92.969765"
+       y="105.20549"
+       id="text2231-6"><tspan
+	 id="tspan2229-3"
+	 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:serif;-inkscape-font-specification:'serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#625c70;fill-opacity:1;stroke-width:0.264583px"
+	 x="92.969765"
+	 y="105.20549">&quot;cat&quot;</tspan></text>
+  </g>
+</svg>
+
+</center>
+<p />
+</div>
+</div>
+
+<div id="outline-container-org429ce73" class="outline-4">
+<h4 id="org429ce73"><span class="section-number-4">1.1.3</span> Exercise: n-ary extravaganza</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<p>
+In <code>src/Main.hs</code>, define a value called <code>tree3</code> with the following type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">tree3</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">Tree</span> <span style="color: #ff9eb8;">Bool</span>
+</pre>
+</div>
+
+<p>
+Define <code>tree3</code> so as to instantiate this structure:
+</p>
+
+<center>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="57.061024mm"
+   height="58.522743mm"
+   viewBox="0 0 57.061024 58.522743"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <g
+     id="layer1"
+     transform="translate(-54.548126,-99.697741)">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 82.817233,110.8036 0,8.52782"
+       id="path87733" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 79.369954,129.0247 -15.728371,19.316"
+       id="path87735" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 82.868598,130.25046 0.158674,16.86448"
+       id="path87737" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 86.311752,128.98577 16.156698,19.39386"
+       id="path87739" />
+    <ellipse
+       style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625c70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path35"
+       cx="82.81723"
+       cy="105.34392"
+       rx="5.46"
+       ry="5.4596777" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="79.635513"
+       y="106.38121"
+       id="text31059"><tspan
+	 id="tspan31057"
+	 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778px;font-family:serif;-inkscape-font-specification:'serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#625c70;fill-opacity:1;stroke-width:0.264583"
+	 x="79.635513"
+	 y="106.38121">True</tspan></text>
+    <g
+       id="g87098"
+       transform="translate(0.31008391,0.86973858)">
+      <circle
+	 style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625c70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+	 id="path35-0"
+	 cx="82.507149"
+	 cy="123.92136"
+	 r="5.4596777" />
+      <text
+	 xml:space="preserve"
+	 style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583"
+	 x="78.891693"
+	 y="124.9968"
+	 id="text31059-5"><tspan
+	   id="tspan31057-9"
+	   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778px;font-family:serif;-inkscape-font-specification:'serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#625c70;fill-opacity:1;stroke-width:0.264583"
+	   x="78.891693"
+	   y="124.9968">False</tspan></text>
+    </g>
+    <circle
+       style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625c70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path35-0-4"
+       cx="60.194305"
+       cy="152.57431"
+       r="5.4596777" />
+    <circle
+       style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625c70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path35-06-6"
+       cx="83.078636"
+       cy="152.57431"
+       r="5.4596777" />
+    <circle
+       style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625c70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path35-06"
+       cx="105.96297"
+       cy="152.57431"
+       r="5.4596777" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="56.544281"
+       y="153.69276"
+       id="text31059-5-3"><tspan
+	 id="tspan31057-9-8"
+	 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778px;font-family:serif;-inkscape-font-specification:'serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#625c70;fill-opacity:1;stroke-width:0.264583"
+	 x="56.544281"
+	 y="153.69276">False</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="79.818001"
+       y="153.55887"
+       id="text31059-8"><tspan
+	 id="tspan31057-3"
+	 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778px;font-family:serif;-inkscape-font-specification:'serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#625c70;fill-opacity:1;stroke-width:0.264583"
+	 x="79.818001"
+	 y="153.55887">True</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="102.30684"
+       y="153.54141"
+       id="text31059-5-3-9"><tspan
+	 id="tspan31057-9-8-6"
+	 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778px;font-family:serif;-inkscape-font-specification:'serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#625c70;fill-opacity:1;stroke-width:0.264583"
+	 x="102.30684"
+	 y="153.54141">False</tspan></text>
+  </g>
+</svg>
+
+</center>
+<p />
+</div>
+</div>
+
+<div id="outline-container-orga49c5bb" class="outline-4">
+<h4 id="orga49c5bb"><span class="section-number-4">1.1.4</span> Exercise: <code>treeElem</code></h4>
+<div class="outline-text-4" id="text-1-1-4">
+<p>
+Hopefully the last three exercises developed your visual intuitions
+for how recursive branching in the definition of an algebraic datatype
+correspond visually to branches in a tree.  We're now ready to start
+defining functions on trees.
+</p>
+
+<p>
+In <code>src/Main.hs</code>, define a value called <code>treeElem</code> with the following
+type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">treeElem</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">Eq</span> a <span style="color: #ffa724;">=&gt;</span> a <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Tree</span> a <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Bool</span>
+</pre>
+</div>
+
+<p>
+<code>treeElem</code> is similar to <code>elem</code>, which you defined on the homework
+last week, except that it's for trees, rather than lists.  Given an
+input element of type <code>a</code>, it returns <code>True</code> just in case the input
+tree of type <code>Tree a</code> contains the input element.
+</p>
+
+<p>
+When you're done defining <code>treeElem</code>, you should be able to test it
+out in the REPL like so:
+</p>
+
+<pre class="example" id="org6dbc3c7">
+λ&gt; treeElem 1 $ Node 1 []
+True
+λ&gt; treeElem 1 $ Node 12 []
+False
+λ&gt; treeElem 1 $ Node 12 [Node 1 [Node 3 []]]
+True
+λ&gt; treeElem 1 $ Node 12 [Node 0 [Node 3 []]]
+False
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org1d32271" class="outline-4">
+<h4 id="org1d32271"><span class="section-number-4">1.1.5</span> Exercise: <code>depth</code></h4>
+<div class="outline-text-4" id="text-1-1-5">
+<p>
+In <code>src/Main.hs</code>, define a function called <code>depth</code> with the following type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">depth</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">Tree</span> a <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Integer</span>
+</pre>
+</div>
+
+<p>
+Given any input tree, <code>depth</code> tells you the length of the longest path from the
+root to any terminal node.  By convention, we'll say that the tree consisting of
+exactly one terminal node and no branches will have depth 1.
+</p>
+
+<p>
+When you're done, you can test <code>depth</code> out in the REPL like this:
+</p>
+
+<pre class="example" id="org8642e24">
+λ&gt; depth $ Node 5 []
+1
+λ&gt; depth $ Node 5 [Node 6 []]
+2
+λ&gt; depth $ Node 5 [Node 6 [], Node 7 []]
+2
+λ&gt; depth $ Node 5 [Node 6 [], Node 7 [Node 8 [], Node 9 []]]
+3
+λ&gt; depth $ Node 5 [Node 6 [], Node 7 [Node 8 [], Node 9 [Node 11 []], Node 10 []]]
+4
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org7347e01" class="outline-4">
+<h4 id="org7347e01"><span class="section-number-4">1.1.6</span> Exercise: <code>combine</code></h4>
+<div class="outline-text-4" id="text-1-1-6">
+<p>
+In <code>src/Main.hs</code>, define a function called <code>combine</code> with the following type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">combine</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">Tree</span> <span style="color: #ff9eb8;">Integer</span> <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Tree</span> <span style="color: #ff9eb8;">Integer</span> <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Tree</span> <span style="color: #ff9eb8;">Integer</span>
+</pre>
+</div>
+
+<p>
+What <code>combine</code> does is sum the values contained in each node of each tree,
+pairwise.  Any nodes that exist in one of the input trees but not the other are
+just added to the result.  
+</p>
+
+<p>
+For example, if you were to apply <code>combine</code> to these two trees:
+</p>
+
+<center>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="136.20982mm"
+   height="50.717701mm"
+   viewBox="0 0 136.20982 50.7177"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b6b6b6;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 24.013229,20.402815 7.428754,-9.96486"
+     id="path46855" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b6b6b6;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 38.09632,10.339455 8.054192,10.16186"
+     id="path46857" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b6b6b6;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 17.491968,29.160855 8.954307,40.640625"
+     id="path46859" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b6b6b6;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 23.897014,29.241425 7.983633,11.31863"
+     id="path46861" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b6b6b6;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 90.115634,20.038179 7.42876,-9.96486"
+     id="path46855-6" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b6b6b6;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 104.19873,9.974819 8.05419,10.16186"
+     id="path46857-6" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b6b6b6;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 112.48876,28.870872 104.3376,40.386521"
+     id="path77471" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b6b6b6;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 118.85785,28.828897 8.44207,11.599598"
+     id="path77473" />
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#615b6f;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35"
+     cx="34.705112"
+     cy="6.0608134"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#605a6e;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="33.069035"
+     y="7.966804"
+     id="text2231"><tspan
+       id="tspan2229"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#605a6e;fill-opacity:1"
+       x="33.069035"
+       y="7.966804">1</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#615b6f;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-0"
+     cx="20.750097"
+     cy="24.779955"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#605a6e;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="19.114019"
+     y="26.685946"
+     id="text2231-6"><tspan
+       id="tspan2229-3"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#605a6e;fill-opacity:1"
+       x="19.114019"
+       y="26.685946">1</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#615b6f;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-06"
+     cx="49.541721"
+     cy="24.779955"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#605a6e;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="47.905643"
+     y="26.685946"
+     id="text2231-1"><tspan
+       id="tspan2229-5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#605a6e;fill-opacity:1"
+       x="47.905643"
+       y="26.685946">2</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#615b6f;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-0-4"
+     cx="5.696178"
+     cy="45.021523"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#605a6e;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="4.0601001"
+     y="46.927513"
+     id="text2231-6-7"><tspan
+       id="tspan2229-3-6"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#605a6e;fill-opacity:1"
+       x="4.0601001"
+       y="46.927513">3</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#615b6f;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-06-6"
+     cx="35.027565"
+     cy="45.021523"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#605a6e;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="33.435028"
+     y="47.050041"
+     id="text2231-1-9"><tspan
+       id="tspan2229-5-3"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#605a6e;fill-opacity:1"
+       x="33.435028"
+       y="47.050041">2</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#615b6f;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-7"
+     cx="100.80753"
+     cy="5.6961775"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#605a6e;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="99.171448"
+     y="7.6021681"
+     id="text2231-4"><tspan
+       id="tspan2229-4"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#605a6e;fill-opacity:1"
+       x="99.171448"
+       y="7.6021681">0</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#615b6f;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-0-0"
+     cx="86.852509"
+     cy="24.415319"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#605a6e;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="85.216431"
+     y="26.32131"
+     id="text2231-6-78"><tspan
+       id="tspan2229-3-68"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#605a6e;fill-opacity:1"
+       x="85.216431"
+       y="26.32131">1</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#615b6f;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-06-4"
+     cx="115.64413"
+     cy="24.415319"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#605a6e;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="114.00805"
+     y="26.32131"
+     id="text2231-1-3"><tspan
+       id="tspan2229-5-1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#605a6e;fill-opacity:1"
+       x="114.00805"
+       y="26.32131">3</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#615b6f;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-0-4-9"
+     cx="101.18226"
+     cy="44.836025"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#605a6e;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="99.546181"
+     y="46.742016"
+     id="text2231-6-7-2"><tspan
+       id="tspan2229-3-6-0"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#605a6e;fill-opacity:1"
+       x="99.546181"
+       y="46.742016">2</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#615b6f;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-06-6-8"
+     cx="130.51364"
+     cy="44.836025"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#605a6e;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="128.93913"
+     y="46.79184"
+     id="text2231-1-9-9"><tspan
+       id="tspan2229-5-3-2"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583px;fill:#605a6e;fill-opacity:1"
+       x="128.93913"
+       y="46.79184">2</tspan></text>
+</svg>
+
+</center>
+<p />
+
+<p>
+You would get the following tree back:
+</p>
+
+<center>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="54.653683mm"
+   height="50.213551mm"
+   viewBox="0 0 54.653681 50.21355"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 10.707647,29.556733 5.7019092,43.568476"
+     id="path78081" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 14.468976,29.524447 3.723102,9.883797"
+     id="path78083" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 39.586839,29.587092 36.28628,39.3456"
+     id="path78085" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 43.271547,29.520301 3.750466,9.892089"
+     id="path78087" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 15.807565,20.038179 7.428754,-9.96486"
+     id="path46855" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#b5b5b5;stroke-width:0.272;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 29.890656,9.974819 8.054192,10.16186"
+     id="path46857" />
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625d70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35"
+     cx="26.499451"
+     cy="5.6961775"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="24.863373"
+     y="7.6021681"
+     id="text2231"><tspan
+       id="tspan2229"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;fill:#625c70;fill-opacity:1;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="24.863373"
+       y="7.6021681">1</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625d70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-0"
+     cx="12.544433"
+     cy="24.415319"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="10.908355"
+     y="26.32131"
+     id="text2231-6"><tspan
+       id="tspan2229-3"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;fill:#625c70;fill-opacity:1;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="10.908355"
+       y="26.32131">2</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625d70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-06"
+     cx="41.336056"
+     cy="24.415319"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="39.699978"
+     y="26.32131"
+     id="text2231-1"><tspan
+       id="tspan2229-5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;fill:#625c70;fill-opacity:1;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="39.699978"
+       y="26.32131">5</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625d70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-0-4"
+     cx="5.696178"
+     cy="44.517372"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="4.0601001"
+     y="46.423363"
+     id="text2231-6-7"><tspan
+       id="tspan2229-3-6"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;fill:#625c70;fill-opacity:1;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="4.0601001"
+       y="46.423363">3</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625d70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-06-6"
+     cx="20.116623"
+     cy="44.517372"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="18.524086"
+     y="46.545891"
+     id="text2231-1-9"><tspan
+       id="tspan2229-5-3"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;fill:#625c70;fill-opacity:1;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="18.524086"
+       y="46.545891">2</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625d70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-0-4-4"
+     cx="34.537064"
+     cy="44.517372"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="32.900986"
+     y="46.423363"
+     id="text2231-6-7-8"><tspan
+       id="tspan2229-3-6-7"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;fill:#625c70;fill-opacity:1;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="32.900986"
+       y="46.423363">2</tspan></text>
+  <circle
+     style="fill:#99ccff;fill-opacity:1;fill-rule:nonzero;stroke:#625d70;stroke-width:0.373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path35-06-6-7"
+     cx="48.957504"
+     cy="44.517372"
+     r="5.4596777" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.95312046px;line-height:6.61458px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#625c70;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="47.364967"
+     y="46.545891"
+     id="text2231-1-9-2"><tspan
+       id="tspan2229-5-3-7"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Normal';stroke-width:0.264583px;fill:#625c70;fill-opacity:1;font-size:5.95312046px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="47.364967"
+       y="46.545891">2</tspan></text>
+</svg>
+
+</center>
+<p />
+
+<p>
+When you're done, you can test <code>combine</code> out in the REPL like this:
+</p>
+
+<pre class="example" id="orgbb51ff0">
+λ&gt; combine (Node 1 []) (Node 20 [])
+Node 21 []
+λ&gt; combine (Node 1 [Node 2 [], Node 5 [Node 3 [], Node 4 []]]) (Node 7 [Node 8 [], Node 9 []])
+Node 8 [Node 10 [],Node 14 [Node 3 [],Node 4 []]]
+λ&gt; combine (Node 1 [Node 2 [], Node 3 []]) (Node 12 [])
+Node 13 [Node 2 [],Node 3 []]
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4f2b4d9" class="outline-3">
+<h3 id="org4f2b4d9"><span class="section-number-3">1.2</span> Downward Paths</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+How should we define a 'location' in an n-ary tree?  One natural
+way to do it is to use a list of integers.  (We'll use 0-indexing
+for it.)  No need for a full datatype; we can get away with a type
+alias, which is just a way of giving some complicated datatype a
+simple name.  (More on that below, once you start your final
+project.)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ff2c4b; font-weight: bold;">type</span> <span style="color: #ff9eb8;">Path</span> <span style="color: #ffa724;">=</span> [<span style="color: #ff9eb8;">Integer</span>]
+</pre>
+</div>
+
+<p>
+So empty list means 'root node of the tree', <code>[0]</code> means 'go down to
+the leftmost node', <code>[1]</code> means 'go down to the one after the leftmost
+node', and <code>[0,0,1]</code> means 'go down to the leftmost node, then down
+once more to the leftmost node, then down once more to the next node
+after the leftmost node'.  And so on.
+</p>
+</div>
+
+<div id="outline-container-orgfee4c39" class="outline-4">
+<h4 id="orgfee4c39"><span class="section-number-4">1.2.1</span> Exercise: <code>treeInsert</code></h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+In <code>src/Main.hs</code>, define a value called <code>treeInsert</code> with the following type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">treeInsert</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">Tree</span> a <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Path</span> <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Tree</span> a <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Tree</span> a
+</pre>
+</div>
+
+<p>
+<code>treeInsert</code> takes a tree to insert, a location in a tree, and a tree to
+insert the first input into, and returns a new tree with the first
+tree inserted into the second tree at the specified location.
+</p>
+
+<p>
+You should handle bad path inputs in the following way.  If the
+path is so long that it runs downwards off the end of the tree,
+just have <code>treeInsert</code> return the original second tree input
+unchanged.  Same thing for if the path contains a number so big it
+would run off the end of the tree rightwards (that is, if the
+integer at any point in the path exceeds the number of nodes in
+the tree at that depth level): return the original second tree
+input unchanged.  Finally, if any of the integers in the path are
+negative, retrun the original second tree input unchanged.
+</p>
+
+<p>
+Here are some examples to give you a feel for how <code>insert</code> works:
+</p>
+
+<pre class="example" id="org4eb38fd">
+λ&gt; tree4 = Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [], Node 6 [], Node 7 []]]], Node 8 []]
+λ&gt; treeInsert (Node 120008 []) [] tree4
+Node 120008 []
+λ&gt; treeInsert (Node 120008 []) [0] tree4
+Node 1 [Node 120008 [],Node 8 []]
+λ&gt; treeInsert (Node 120008 []) [1] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 7 []]]],Node 120008 []]
+λ&gt; treeInsert (Node 120008 []) [0,0] tree4
+Node 1 [Node 2 [Node 120008 []],Node 8 []]
+λ&gt; treeInsert (Node 120008 []) [0,0,0] tree4
+Node 1 [Node 2 [Node 3 [Node 120008 []]],Node 8 []]
+λ&gt; treeInsert (Node 120008 []) [0,0,0,0] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 120008 [],Node 6 [],Node 7 []]]],Node 8 []]
+λ&gt; treeInsert (Node 120008 []) [0,0,0,0,0,0,0,0,0,0,0] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 7 []]]],Node 8 []]
+λ&gt; treeInsert (Node 120008 []) [0,0,0,1] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 120008 [],Node 7 []]]],Node 8 []]
+λ&gt; treeInsert (Node 120008 []) [0,0,0,2] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 120008 []]]],Node 8 []]
+λ&gt; treeInsert (Node 120008 []) [0,0,0,98317982] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 7 []]]],Node 8 []]
+λ&gt; treeInsert (Node 120008 []) [0,0,0,(-1)] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 7 []]]],Node 8 []]
+λ&gt; treeInsert (Node 120008 []) [(-17),0,0,0] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 7 []]]],Node 8 []]
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org01a36f4" class="outline-2">
+<h2 id="org01a36f4"><span class="section-number-2">2</span> Short Exercises</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Just like last week, make a new <code>stack</code> project called <code>exercises2</code> in
+the <code>assignment2</code> directory of your GitLab repository:
+</p>
+
+<pre class="example" id="org9b25aab">
+$ cd assignment2
+$ stack new exercises2 simple
+</pre>
+
+<p>
+It's a little silly since there's just one 'at-home' exercise this
+week, other than starting the final project, but let's just stick with
+this format to maintain consistency.
+</p>
+</div>
+
+<div id="outline-container-org8c43999" class="outline-4">
+<h4 id="org8c43999"><span class="section-number-4">2.0.1</span> Exercise: <code>treeDelete</code></h4>
+<div class="outline-text-4" id="text-2-0-1">
+<p>
+In <code>src/Main.hs</code>, define a function called <code>treeDelete</code> with the
+following type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">treeDelete</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">Path</span> <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Tree</span> a <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Tree</span> a
+</pre>
+</div>
+
+<p>
+<code>treeDelete</code> takes a tree location and a tree, and deletes the
+value.  Handle bad input paths similarly to how you did for
+<code>treeInsert</code>: if the path runs off the end of the tree downward or
+off the side of the tree rightward, return the input unmodified.
+If the path contains negative integers, return the input
+unmodified.  There is no way to have an empty tree in the <code>Tree a</code>
+data structure as we've defined it, which means that <code>treeDelete</code>
+should also return the input unchanged if it's given the empty
+list as an input path.
+</p>
+
+<pre class="example" id="org46b9a23">
+λ&gt; tree4 = Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [], Node 6 [], Node 7 []]]], Node 8 []]
+λ&gt; treeDelete [] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 7 []]]],Node 8 []]
+λ&gt; treeDelete [0] tree4
+Node 1 [Node 8 []]
+λ&gt; treeDelete [1] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 7 []]]]]
+λ&gt; treeDelete [329874] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 7 []]]],Node 8 []]
+λ&gt; treeDelete [0,0] tree4
+Node 1 [Node 2 [],Node 8 []]
+λ&gt; treeDelete [0,1] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 7 []]]],Node 8 []]
+λ&gt; treeDelete [0,0,0] tree4
+Node 1 [Node 2 [Node 3 []],Node 8 []]
+λ&gt; treeDelete [0,0,0,0] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 6 [],Node 7 []]]],Node 8 []]
+λ&gt; treeDelete [0,0,0,1] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 7 []]]],Node 8 []]
+λ&gt; treeDelete [0,0,0,2] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 []]]],Node 8 []]
+λ&gt; treeDelete [0,0,0,32847328] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 7 []]]],Node 8 []]
+λ&gt; treeDelete [0,1,0,32847328] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 7 []]]],Node 8 []]
+λ&gt; treeDelete [(-1)] tree4
+Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [],Node 6 [],Node 7 []]]],Node 8 []]
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8644cc0" class="outline-2">
+<h2 id="org8644cc0"><span class="section-number-2">3</span> Project</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+It's time to start the final project for the class!  I know it seems
+early, but we're going to do a little bit every week.  By the end,
+it'll accumulate into something pretty cool.
+</p>
+
+<p>
+The final project is going to be a simplified text adventure game,
+roughly in the style of <b>Colossal Adventure</b> or <b>Zork</b>.  During the
+beginning part of the class, we'll be building up the 'brains' behind
+the game.  That means we'll follow the <i>functional core/imperative
+shell</i> approach and write nothing but pure functional code for the
+game roughly during the first half of the course, and then add in the
+part of the game that 'does stuff' during the latter part of the
+course.
+</p>
+
+<p>
+The first step in developing the brains of the game is to think about
+what software engineers would call our <i>data model</i>.  Think of a data
+model as a high-level description of what types of basic entities your
+program can work with and how it can manipulate those basic entities.
+Every program you write is going to have different entities it assumes
+as basic and different things it'll be able to do to those basic
+entities.  So in general, the data model won't involve low-level stuff
+like 'integers' and 'addition', unless the program you want to write
+is a four-function calculator.  Rather, it's probably going to involve
+stuff like like 'user accounts', or 'password questions', or
+'students'.  And the kinds of manipulations you'll be interested in
+are going to look less like 'store this bit in a register' and more
+like 'change this user's password'.
+</p>
+
+<p>
+Since this is a game, the kinds of entities you'll be manipulating
+will be things like a player, an item, a weight, a room, a map, etc.
+So the next step is to start designing them.
+</p>
+</div>
+
+<div id="outline-container-org0cf1802" class="outline-3">
+<h3 id="org0cf1802"><span class="section-number-3">3.1</span> Interlude: Type Aliases</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+So one feature of types in Haskell that we haven't gone over yet is
+<i>type aliases</i>.  Type aliases are a nice way to enhance the
+readability of your code.  If you have a big, unwieldy type with
+lots of parameters, sometimes it helps to give it a nickname you
+came up with that's going to remind you what it's actually for.
+</p>
+
+<p>
+For example, suppose I'm writing a command prompt, similar to the
+UNIX shell.  Maybe I want to give it the feature whereby it
+remembers anything the user typed in so far, in case the user wants
+to search back through it rather than retyping it.  (Most UNIX
+shells, such as <code>bash</code> or <code>zsh</code>, already provide this functionality
+if you type <code>Ctrl-r</code>.)
+</p>
+
+<p>
+In that case, maybe I want to have the app store everything the
+user has typed in so far in a list.  Since the user would be typing
+in strings, a natural way to go here would be to store the history
+of what the user typed in as a list of strings.  In that situation,
+I could create the following type alias to make it clearer both to
+myself and other people what this list of strings is actually for:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ff2c4b; font-weight: bold;">type</span> <span style="color: #ff9eb8;">History</span> <span style="color: #ffa724;">=</span> [<span style="color: #ff9eb8;">String</span>]
+</pre>
+</div>
+
+<p>
+Then later on, if I wanted to write a function that displayed the entire history
+of the string, I could give it this type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">displayHistory</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">History</span> <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">IO</span> <span style="color: #ff9eb8;">()</span>
+</pre>
+</div>
+
+<p>
+Rather than this type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">displayHistory</span> <span style="color: #ffa724;">::</span> [<span style="color: #ff9eb8;">String</span>] <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">IO</span> <span style="color: #ff9eb8;">()</span>
+</pre>
+</div>
+
+<p>
+Don't worry too much about what <code>IO ()</code> means for now; we're going to cover that
+next week.  That's just the type we give to a value that performs an action,
+like printing to the screen.
+</p>
+
+<p>
+It's important to remember that a type alias is just there to help you read and
+keep track of your code.  It does not actually define a new datatype.  All the
+above type alias says is: "Hey, Haskell, whenever you see something I'm calling
+the <code>History</code> type, pretend that instead I wrote <code>[String]</code>."  The <code>data</code>
+keyword is for defining actual new types; the <code>type</code> keyword is just for
+defining type aliases.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orga647f35" class="outline-3">
+<h3 id="orga647f35"><span class="section-number-3">3.2</span> First Steps</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Ok, time to start the final project!  First, you're going to set up a new
+project.  Go to your <code>assignment2</code> folder in your git repo and type:
+</p>
+
+<pre class="example" id="org5cf8d34">
+$ stack new functional-adventure simple
+</pre>
+
+<p>
+Every week, you'll copy this project over to the folder of that week's
+assignment and add a bit to it.
+</p>
+</div>
+
+<div id="outline-container-org6f204dd" class="outline-4">
+<h4 id="org6f204dd"><span class="section-number-4">3.2.1</span> Items</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+This is going to be an adventure game, and what would an adventure
+game be without items?  Items are therefore going to be an
+important piece of information in our representation of the state
+of the game at any given time.
+</p>
+
+<p>
+First, create a new file called <code>src/Item.hs</code> in your
+<code>functional-adventure</code> project folder.  Any Haskell module needs a
+module declaration, so add one to the top of that file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ff2c4b; font-weight: bold;">module</span> <span style="color: #ff9eb8;">Item</span> <span style="color: #ff2c4b; font-weight: bold;">where</span>
+</pre>
+</div>
+
+<p>
+Though GHC will let you compile a local module that isn't
+mentioned in your project configuration file, it's generally good
+pratice to mention all local modules in your project configuration
+file.  So next, open the file <code>functional-adventure.cabal</code> (which
+Stack created automatically).  It should look like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell-cabal"><span style="color: #ff2c4b; font-weight: bold;">name</span>:                functional-adventure
+<span style="color: #ff2c4b; font-weight: bold;">version</span>:             0.1.0.0
+<span style="color: #998f84;">-- synopsis:</span>
+<span style="color: #998f84;">-- description:</span>
+<span style="color: #ff2c4b; font-weight: bold;">homepage</span>:            https://github.com/githubuser/functional-adventure#readme
+<span style="color: #ff2c4b; font-weight: bold;">license</span>:             BSD3
+<span style="color: #ff2c4b; font-weight: bold;">license-file</span>:        LICENSE
+<span style="color: #ff2c4b; font-weight: bold;">author</span>:              Author name here
+<span style="color: #ff2c4b; font-weight: bold;">maintainer</span>:          example@example.com
+<span style="color: #ff2c4b; font-weight: bold;">copyright</span>:           2019 Author name here
+<span style="color: #ff2c4b; font-weight: bold;">category</span>:            Web
+<span style="color: #ff2c4b; font-weight: bold;">build-type</span>:          Simple
+<span style="color: #ff2c4b; font-weight: bold;">cabal-version</span>:       &gt;=1.10
+<span style="color: #ff2c4b; font-weight: bold;">extra-source-files</span>:  README.md
+
+<span style="color: #ff2c4b; font-weight: bold;">executable</span> <span style="color: #ffa724;">functional-adventure</span>
+  <span style="color: #ff2c4b; font-weight: bold;">hs-source-dirs</span>:      src
+  <span style="color: #ff2c4b; font-weight: bold;">main-is</span>:             Main.hs
+  <span style="color: #ff2c4b; font-weight: bold;">default-language</span>:    Haskell2010
+  <span style="color: #ff2c4b; font-weight: bold;">build-depends</span>:       base &gt;= 4.7 &amp;&amp; &lt; 5
+</pre>
+</div>
+
+<p>
+To tell the project that you've created a new module, add the
+following to the <code>functional-adventure.cabal</code> config file, right
+above the section that starts with <code>executable
+    functional-adventure</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell-cabal"><span style="color: #ff2c4b; font-weight: bold;">library</span>
+  <span style="color: #ff2c4b; font-weight: bold;">hs-source-dirs</span>:      src
+  <span style="color: #ff2c4b; font-weight: bold;">default-language</span>:    Haskell2010
+  <span style="color: #ff2c4b; font-weight: bold;">build-depends</span>:       base
+  <span style="color: #ff2c4b; font-weight: bold;">exposed-modules</span>:     Item
+</pre>
+</div>
+
+<p>
+We also need to add the <code>Item</code> module to the <code>executable</code> section.
+Add an <code>other-modules</code> field to the <code>executable</code> section of your
+<code>functional-adventure.config</code> file, so that it looks like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell-cabal"><span style="color: #ff2c4b; font-weight: bold;">executable</span> <span style="color: #ffa724;">functional-adventure</span>
+  <span style="color: #ff2c4b; font-weight: bold;">hs-source-dirs</span>:      src
+  <span style="color: #ff2c4b; font-weight: bold;">main-is</span>:             Main.hs
+  <span style="color: #ff2c4b; font-weight: bold;">default-language</span>:    Haskell2010
+  <span style="color: #ff2c4b; font-weight: bold;">build-depends</span>:       base
+  <span style="color: #ff2c4b; font-weight: bold;">other-modules</span>:       Item
+</pre>
+</div>
+
+<p>
+Ok, now you're all set to start making the <code>Item</code> datatype!  An
+item in our game will have a name and a weight.  (The name will be
+what we use to look the item up.)  So the first thing that's going
+to go into your module is a declaration of your datatype.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org06f679f" class="outline-4">
+<h4 id="org06f679f"><span class="section-number-4">3.2.2</span> Exercise: Item Names</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<p>
+Define a type alias called <code>ItemName</code> in your <code>src/Item.hs</code> source
+file, right after the module declaration and after any import
+statements.  <code>ItemName</code> will just be an alias for the type
+<code>String</code>.  In the code, we're going to use the item name as a sort
+of 'primary key' for looking up an actual item, and having the
+type alias is a good way to remind ourselves that this is intended
+for that use specifically.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org75cfcd3" class="outline-4">
+<h4 id="org75cfcd3"><span class="section-number-4">3.2.3</span> Exercise: <code>Items</code></h4>
+<div class="outline-text-4" id="text-3-2-3">
+<p>
+In <code>src/Item.hs</code>, define a record type called <code>Item</code> with two
+fields, <code>iname</code> of type <code>ItemName</code>, and <code>weight</code> of type
+<code>Integer</code>.  Add a <code>deriving</code> clause to the end of your type
+definition that looks like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #998f84;">-- </span><span style="color: #998f84;">...your datatype definition goes here...</span>
+<span style="color: #ff2c4b; font-weight: bold;">deriving</span> (<span style="color: #ff9eb8;">Show</span>, <span style="color: #ff9eb8;">Eq</span>)
+</pre>
+</div>
+
+<p>
+We will be covering what <code>Show</code> and <code>Eq</code> actually are next week.
+For now, just think of this deriving clause as automatically
+writing some functions for you, so you don't have to write them.
+</p>
+
+<p>
+When you're done, you should be able to make new <code>Item</code>-s like
+this:
+</p>
+
+<pre class="example" id="org5ab5fa8">
+λ&gt; Item "fork" 9
+Item {iname = "fork", weight = 9}
+λ&gt; Item "spoon" 10
+Item {iname = "spoon", weight = 10}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org41b676e" class="outline-3">
+<h3 id="org41b676e"><span class="section-number-3">3.3</span> Interlude: Lookup Tables in Haskell</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Every language (pretty much) has some built-in structure for a
+key-value store.  In Python, they're called dictionaries, in Ruby,
+they're called hashes, and in Javascript, they're called objects.
+</p>
+
+<p>
+In Haskell, the most basic form of lookup table is called an
+<i>association list</i>.  An association list is a list of tuples whose
+first members are keys and whose second members are values.  For
+example, if I wanted to be able to store someone's full name in a
+table so that I could look it up later based on their username, I
+could put that information into the following association list:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">names</span> <span style="color: #ffa724;">::</span> [(<span style="color: #ff9eb8;">String</span>, <span style="color: #ff9eb8;">String</span>)]
+<span style="color: #ffa724;">names</span> <span style="color: #ffa724;">=</span> [ (<span style="color: #f4cf86;">"teichman"</span>, <span style="color: #f4cf86;">"Matt Teichman"</span>)
+        , (<span style="color: #f4cf86;">"brady"</span>, <span style="color: #f4cf86;">"Gerry Brady"</span>)
+        , (<span style="color: #f4cf86;">"borja"</span>, <span style="color: #f4cf86;">"Borja Sotomayor"</span>)
+        ]
+</pre>
+</div>
+
+<p>
+Association lists come with in-built functions that allow you to
+look a value up, but that's it.  If you want to do things like
+delete a key-value pair or update the value for a given key, then
+it's probably not worth hand-rolling these functions yourself.
+Instead, you can use a data structure called a <code>Map</code> (uppercase
+'m', not to be confused with the higher-order function <code>map</code>),
+which provides a full interface for you to efficiently do key-value
+storage, lookup, and modification.
+</p>
+
+<p>
+(And remember: in Haskell, words like 'modify', 'delete', and
+'update' don't mean we actually change the lookup table&#x2014;instead,
+these are functions that return a new lookup table with the
+modification performed, leaving the old one around in memory if we
+need it.)
+</p>
+
+<p>
+The first type variable <code>k</code> in <code>Map k v</code> tells you the type of the
+lookup table's keys, and the second type variable <code>v</code> tells you the
+type of the lookup table's values.  So for example, a <code>Map String
+   Integer</code> would be a lookup table with strings as keys and integers
+as values.
+</p>
+
+<p>
+You might be wondering why I even mentioned association lists, if
+their built-in interface is so austere.  Well, it turns out that
+the easiest way to make a <code>Map k v</code> in Haskell is to write out an
+association list of type <code>[(k,v)]</code> and then use the function
+<code>fromList</code> in the <code>Data.Map</code> module to convert that association
+list into a <code>Map k v</code>.  This is how I recommend creating <code>Map</code>-s in
+the next part of the homework.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcefd200" class="outline-3">
+<h3 id="orgcefd200"><span class="section-number-3">3.4</span> Interlude: Qualified Names</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+We'll be covering Haskell's module system more over the next few
+weeks.  But the thing you need to know in order to start using
+<code>Map</code>-s is that frequently, different Haskell modules define
+functions with the same name.  When one module has imported all the
+values of two other modules into its global namespace, and each of
+those modules contains a function with the same name, this creates
+a name clash that will make the compiler throw an error.
+</p>
+
+<p>
+One option is to just qualify the name of your function with the
+full module name whenever you use it:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ff2c4b; font-weight: bold;">import</span> <span style="color: #ff9eb8;">Data.Map</span>
+</pre>
+</div>
+
+<pre class="example" id="org96a3348">
+λ&gt; :t Prelude.foldr
+Prelude.foldr :: Foldable t =&gt; (a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+λ&gt; :t Data.Map.foldr
+Data.Map.foldr :: (a -&gt; b -&gt; b) -&gt; b -&gt; Map k a -&gt; b
+</pre>
+
+<p>
+That's kind of annoying, though.  We're going to go with the option
+of importing <code>Data.Map</code> qualified as <code>M</code>.  That will import every
+value in that module into the global namespace, but prefixing
+everything <code>M.</code>.  Everything in <code>Prelude</code> will be there for you to
+use unqualified to your heart's content:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ff2c4b; font-weight: bold;">import</span> <span style="color: #ff2c4b; font-weight: bold;">qualified</span> <span style="color: #ff9eb8;">Data.Map</span> <span style="color: #ff2c4b; font-weight: bold;">as</span> <span style="color: #ff9eb8;">M</span>
+</pre>
+</div>
+
+<pre class="example" id="orgbb1471a">
+λ&gt; :t foldr
+foldr :: Foldable t =&gt; (a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+λ&gt; :t M.foldr
+M.foldr :: (a -&gt; b -&gt; b) -&gt; b -&gt; M.Map k a -&gt; b
+</pre>
+
+<p>
+Ok, back to the adventure game.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8ab8d1f" class="outline-3">
+<h3 id="org8ab8d1f"><span class="section-number-3">3.5</span> The Universe</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+The game is going to keep track of which items exist and what their
+names are.  To have it do that, we're going to use the <code>Map</code> data
+structure discussed above.
+</p>
+
+<p>
+The <code>Map</code> data structure is not included in <code>base</code>, the package
+containing the standard Haskell library&#x2014;it's in the <code>containers</code>
+package.  So you'll need to tell your <code>stack</code> project config file
+that you want to include the <code>containers</code> package.
+</p>
+
+<p>
+The first thing you want to do is edit the <code>library</code> section of
+your <code>src/functional-adventure.cabal</code> config file so that it knows
+to have the <code>containers</code> package ready.  Change it so that the
+<code>build-depends</code> field contains the package <code>containers</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell-cabal"><span style="color: #ff2c4b; font-weight: bold;">library</span>
+  <span style="color: #ff2c4b; font-weight: bold;">hs-source-dirs</span>:      src
+  <span style="color: #ff2c4b; font-weight: bold;">default-language</span>:    Haskell2010
+  <span style="color: #ff2c4b; font-weight: bold;">build-depends</span>:       base
+                     , containers
+  <span style="color: #ff2c4b; font-weight: bold;">exposed-modules</span>:     Item
+</pre>
+</div>
+
+<p>
+You also need to do the same thing for the <code>executable
+   functional-adventure</code> section.  Add <code>containers</code> to the
+<code>build-depends</code> field:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell-cabal"><span style="color: #ff2c4b; font-weight: bold;">executable</span> <span style="color: #ffa724;">functional-adventure</span>
+  <span style="color: #ff2c4b; font-weight: bold;">hs-source-dirs</span>:      src
+  <span style="color: #ff2c4b; font-weight: bold;">main-is</span>:             Main.hs
+  <span style="color: #ff2c4b; font-weight: bold;">default-language</span>:    Haskell2010
+  <span style="color: #ff2c4b; font-weight: bold;">build-depends</span>:       base
+                     , containers
+  <span style="color: #ff2c4b; font-weight: bold;">other-modules</span>:       Item
+</pre>
+</div>
+
+<p>
+Next, you need to import the <code>Data.Map</code> module from the
+<code>containers</code> package at the top of your <code>Item.hs</code> module.  This is
+typically done right after you declare the module.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ff2c4b; font-weight: bold;">module</span> <span style="color: #ff9eb8;">Item</span> <span style="color: #ff2c4b; font-weight: bold;">where</span>
+
+<span style="color: #ff2c4b; font-weight: bold;">import</span> <span style="color: #ff2c4b; font-weight: bold;">qualified</span> <span style="color: #ff9eb8;">Data.Map</span> <span style="color: #ff2c4b; font-weight: bold;">as</span> <span style="color: #ff9eb8;">M</span>
+
+<span style="color: #998f84;">-- </span><span style="color: #998f84;">...the rest of your code...</span>
+</pre>
+</div>
+
+<p>
+If you're trying to figure out how to do things with <code>Maps</code>, a good
+place to look while you're initially playing around is the official
+documentation for the <code>Data.Map</code> module:
+</p>
+
+<p>
+<a href="https://hackage.haskell.org/package/containers-0.4.2.0/docs/Data-Map.html">https://hackage.haskell.org/package/containers-0.4.2.0/docs/Data-Map.html</a>
+</p>
+</div>
+
+<div id="outline-container-org97114c5" class="outline-4">
+<h4 id="org97114c5"><span class="section-number-4">3.5.1</span> Exercise: <code>Universe</code></h4>
+<div class="outline-text-4" id="text-3-5-1">
+<p>
+Create a type alias for the <code>M.Map String Item</code> type called
+<code>Universe</code>.  This will serve as a lookup table for us to find an
+item to work with based on the item's name.  (Once we actually
+have some items to work with, which we don't just yet.)
+</p>
+
+<p>
+With that groundwork laid, things are going to start getting more
+interesting.  We're now going to write a function that creates a
+<code>Universe</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb1714b0" class="outline-4">
+<h4 id="orgb1714b0"><span class="section-number-4">3.5.2</span> Exercise: <code>mkUniverse</code></h4>
+<div class="outline-text-4" id="text-3-5-2">
+<p>
+The function for creating a new universe is going to take a list
+of items and construct a <code>Universe</code> (that is, a key-value store
+with <code>ItemName</code>-s as keys and <code>Item</code>-s as values) from it.
+</p>
+
+<p>
+Please implement a function called <code>mkUniverse</code> with the following
+type signature:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">mkUniverse</span> <span style="color: #ffa724;">::</span> [<span style="color: #ff9eb8;">Item</span>] <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Universe</span>
+</pre>
+</div>
+
+<p>
+You are welcome to implement this function however you like, and
+there are many ways to skin a cat.  That said, my own favorite way
+to make a <code>Map</code> is to first make an association list, then use the
+function <code>fromList</code> (which comes with the <code>Data.Map</code> module) to
+convert it to a <code>Map</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">fromList</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">Ord</span> k <span style="color: #ffa724;">=&gt;</span> [(k, a)] <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">M.Map</span> k a
+</pre>
+</div>
+
+<p>
+Remember, since we imported the module qualified as <code>M</code>, if you
+want to use this function in your code, you can't just call it
+<code>fromList</code>; you have to call it <code>M.fromList</code>.  When you're done,
+you should be able to use <code>mkUniverse</code> to create a new <code>Universe</code>
+like so:
+</p>
+
+<pre class="example" id="org26d6775">
+λ&gt; someItems = [ Item "fork" 9, Item "spoon" 10 ]
+λ&gt; mkUniverse someItems
+fromList [("fork",Item {iname = "fork", weight = 9}),("spoon",Item {iname = "spoon", weight = 10})]
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgd80eaf8" class="outline-3">
+<h3 id="orgd80eaf8"><span class="section-number-3">3.6</span> Direction</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+The idea of making a whole datatype just for 'directions' might seem a little
+weird at first.  But when you think about it, any computer game you might play
+is going to make different assumptions about what directions the player can move
+in.  For example, some will only let the player move from side to side, some
+will let the player move in any of the four cardinal directions (i.e. north,
+south, east, and west), and one classic tradition is to let the player to move
+in any of the four cardinal directions plus any of the four intermediate
+diagonal positions, like northeast, southwest, and so forth.
+</p>
+
+<p>
+For this game, we're going to go with the four cardinal directions.  
+</p>
+
+<p>
+First, create a new file called <code>src/Direction.hs</code> and declare the <code>Direction</code>
+module at the top of the file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ff2c4b; font-weight: bold;">module</span> <span style="color: #ff9eb8;">Direction</span> <span style="color: #ff2c4b; font-weight: bold;">where</span>
+</pre>
+</div>
+
+<p>
+Since <code>Direction</code> is a new local module, you will also need to add it to the
+list of 'exposed modules' in the library section of your
+<code>functional-adventure.cabal</code> file, below <code>Item</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell-cabal"><span style="color: #ff2c4b; font-weight: bold;">library</span>
+  <span style="color: #ff2c4b; font-weight: bold;">hs-source-dirs</span>:      src
+  <span style="color: #ff2c4b; font-weight: bold;">default-language</span>:    Haskell2010
+  <span style="color: #ff2c4b; font-weight: bold;">build-depends</span>:       base
+                     , containers
+  <span style="color: #ff2c4b; font-weight: bold;">exposed-modules</span>:     Item
+                     , Direction
+</pre>
+</div>
+
+<p>
+And once again, you need to add the new module to the <code>other-modules</code> field of
+your <code>executable</code> section.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell-cabal"><span style="color: #ff2c4b; font-weight: bold;">executable</span> <span style="color: #ffa724;">functional-adventure</span>
+  <span style="color: #ff2c4b; font-weight: bold;">hs-source-dirs</span>:      src
+  <span style="color: #ff2c4b; font-weight: bold;">main-is</span>:             Main.hs
+  <span style="color: #ff2c4b; font-weight: bold;">default-language</span>:    Haskell2010
+  <span style="color: #ff2c4b; font-weight: bold;">build-depends</span>:       base
+                     , containers
+  <span style="color: #ff2c4b; font-weight: bold;">other-modules</span>:       Item
+                     , Direction
+</pre>
+</div>
+
+<p>
+This is the ritual you'll need to go through whenever you create a new local
+module.  Burn it into your brain:
+</p>
+
+<ol class="org-ol">
+<li>create <code>src/NewModule.hs</code></li>
+<li>add <code>NewModule</code> to the <code>exposed-modules</code> field of <code>library</code> in
+<code>functional-adventure.cabal</code></li>
+<li>add <code>NewModule</code> to the <code>other-modules</code> field of <code>executable
+   functional-adventure</code> in <code>functional-adventure.cabal</code></li>
+</ol>
+</div>
+
+
+<div id="outline-container-org6874233" class="outline-4">
+<h4 id="org6874233"><span class="section-number-4">3.6.1</span> Exercise: <code>Direction</code> datatype</h4>
+<div class="outline-text-4" id="text-3-6-1">
+<p>
+Open <code>src/Direction.hs</code> and create the <code>Direction</code> datatype, after you declare
+the module.  It should consist exclusively of data constructors that don't take
+any arguments: <code>N</code>, <code>S</code>, <code>E</code>, and <code>W</code>.  After you've defined it, go ahead and
+add the following deriving clause to the end of it:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #998f84;">-- </span><span style="color: #998f84;">...your datatype definition goes here...</span>
+<span style="color: #ff2c4b; font-weight: bold;">deriving</span> (<span style="color: #ff9eb8;">Show</span>, <span style="color: #ff9eb8;">Eq</span>)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orga5b2113" class="outline-3">
+<h3 id="orga5b2113"><span class="section-number-3">3.7</span> Rooms</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+The next task is to create a <code>Room</code> datatype.  This is what the game will
+consider to be the most primitive type of location that you, the player, can
+occupy.
+</p>
+
+<p>
+What goes into a room?  Like with the <code>Item</code> datatype we just created, a room is
+going to have a name, and we can use that name as a 'primary key' to look rooms
+up in a lookup table much like the one we made for items.  We'll give each room
+a description, which is what the game is going to print when you enter a room
+and look around.  We'll also give it a list of exits, which can go in any of the
+four cardinal directions.  If you think of each room as a puzzle piece, then you
+can think of another room as a puzzle piece that can snap in alongside it in
+that direction.  And finally, each room will have a list of the name of every
+object in the room, so the game can determine which objects are available for
+the player to interact with at any given point.
+</p>
+
+<p>
+Go ahead and create a new file called <code>src/Room.hs</code>, and declare the module at
+the top of the file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ff2c4b; font-weight: bold;">module</span> <span style="color: #ff9eb8;">Room</span> <span style="color: #ff2c4b; font-weight: bold;">where</span>
+
+<span style="color: #ff2c4b; font-weight: bold;">import</span> <span style="color: #ff9eb8;">Item</span>
+<span style="color: #ff2c4b; font-weight: bold;">import</span> <span style="color: #ff9eb8;">Direction</span>
+</pre>
+</div>
+
+<p>
+You will also need to add <code>Room</code> to your list of exposed library modules in
+<code>functional-adventure.cabal</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell-cabal"><span style="color: #ff2c4b; font-weight: bold;">library</span>
+  <span style="color: #ff2c4b; font-weight: bold;">hs-source-dirs</span>:      src
+  <span style="color: #ff2c4b; font-weight: bold;">default-language</span>:    Haskell2010
+  <span style="color: #ff2c4b; font-weight: bold;">build-depends</span>:       base
+                     , containers
+  <span style="color: #ff2c4b; font-weight: bold;">exposed-modules</span>:     Item
+                     , Direction
+                     , Room
+</pre>
+</div>
+
+<p>
+And as always, you need to add it to the <code>other-modules</code> field in the
+<code>executable functional-adventure</code> section of your <code>functional-adventure.cabal</code>
+config file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell-cabal"><span style="color: #ff2c4b; font-weight: bold;">executable</span> <span style="color: #ffa724;">functional-adventure</span>
+    <span style="color: #ff2c4b; font-weight: bold;">hs-source-dirs</span>:      src
+    <span style="color: #ff2c4b; font-weight: bold;">main-is</span>:             Main.hs
+    <span style="color: #ff2c4b; font-weight: bold;">default-language</span>:    Haskell2010
+    <span style="color: #ff2c4b; font-weight: bold;">build-depends</span>:       base
+                       , containers
+    <span style="color: #ff2c4b; font-weight: bold;">other-modules</span>:       Item
+                       , Direction
+                       , Room
+</pre>
+</div>
+
+<p>
+Before making the <code>Room</code> record type, we'll create the types that are going to
+feature in fields of the record.
+</p>
+</div>
+
+<div id="outline-container-org3d328a1" class="outline-4">
+<h4 id="org3d328a1"><span class="section-number-4">3.7.1</span> Exercise: Room names</h4>
+<div class="outline-text-4" id="text-3-7-1">
+<p>
+Create a type alias for <code>String</code> called <code>RoomName</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org64c76c6" class="outline-4">
+<h4 id="org64c76c6"><span class="section-number-4">3.7.2</span> Exercise: <code>Exit</code></h4>
+<div class="outline-text-4" id="text-3-7-2">
+<p>
+We'll encode the exits as pairs consisting of a <code>Direction</code> and a <code>RoomName</code>.
+The direction represents which direction the exit is in, and the room name
+represents which room the exit takes you to.
+</p>
+
+<p>
+Create a type alias for <code>(Direction, RoomName)</code> called <code>Exit</code>.  (This is a bit
+of a cheat, but we're doing <code>Exit</code>-s this way to make your life a little
+easier/make the homework take a little less time.  More on what makes this a
+cheat in next week's homework.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgabe9884" class="outline-4">
+<h4 id="orgabe9884"><span class="section-number-4">3.7.3</span> Exercise: <code>Room</code> datatype</h4>
+<div class="outline-text-4" id="text-3-7-3">
+<p>
+Ok, now we're ready to make the <code>Room</code> datatype!  Create a record type called
+<code>Room</code> with four fields: <code>rname</code> of type <code>RoomName</code>, <code>desc</code> of type <code>String</code>,
+<code>exits</code> of type <code>[Exit]</code>, and <code>objects</code> of type <code>[ItemName]</code>.  Either derive
+<code>Show</code> and <code>Eq</code> instances for it or write your own.
+</p>
+
+<p>
+When you're done, you should be able to create rooms like this:
+</p>
+
+<pre class="example" id="org117ce26">
+λ&gt; Room "den" "This is where fun comes to live." [(N, "basement")] ["tv", "coffee table"]
+Room {rname = "den", desc = "This is where fun comes to live.", exits = [(N,"basement")], objects = ["tv","coffee table"]}
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgfad1c9f" class="outline-3">
+<h3 id="orgfad1c9f"><span class="section-number-3">3.8</span> The Player</h3>
+<div class="outline-text-3" id="text-3-8">
+<p>
+Now we're going to make a <code>Player</code> datatype.  Every game needs a player, right?
+The player is going to be you, the user, and it's going to have whatever stats
+we think a player should have.  Just to keep things simple, the player in our
+game is only going to have three pieces of information that define its current
+status: an inventory, a number representing the maximum amount of weight you can
+carry, and a location.
+</p>
+
+<p>
+First, create a new file called <code>src/Player.hs</code> and declare the <code>Player</code> module
+at the top of it:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ff2c4b; font-weight: bold;">module</span> <span style="color: #ff9eb8;">Player</span> <span style="color: #ff2c4b; font-weight: bold;">where</span>
+
+<span style="color: #ff2c4b; font-weight: bold;">import</span> <span style="color: #ff9eb8;">Item</span>
+<span style="color: #ff2c4b; font-weight: bold;">import</span> <span style="color: #ff9eb8;">Room</span>
+</pre>
+</div>
+
+<p>
+Once again, you have to add <code>Player</code> to the list of exposed library modules in
+your <code>functional-adventure.cabal</code> project config file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell-cabal"><span style="color: #ff2c4b; font-weight: bold;">library</span>
+  <span style="color: #ff2c4b; font-weight: bold;">hs-source-dirs</span>:      src
+  <span style="color: #ff2c4b; font-weight: bold;">default-language</span>:    Haskell2010
+  <span style="color: #ff2c4b; font-weight: bold;">build-depends</span>:       base
+                     , containers
+  <span style="color: #ff2c4b; font-weight: bold;">exposed-modules</span>:     Item
+                     , Direction
+                     , Room
+                     , Player
+</pre>
+</div>
+
+<p>
+And then you also have to add it to <code>other-modules</code> in your <code>executable
+functional-adventure</code> section:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell-cabal"><span style="color: #ff2c4b; font-weight: bold;">executable</span> <span style="color: #ffa724;">functional-adventure</span>
+    <span style="color: #ff2c4b; font-weight: bold;">hs-source-dirs</span>:      src
+    <span style="color: #ff2c4b; font-weight: bold;">main-is</span>:             Main.hs
+    <span style="color: #ff2c4b; font-weight: bold;">default-language</span>:    Haskell2010
+    <span style="color: #ff2c4b; font-weight: bold;">build-depends</span>:       base
+                       , containers
+    <span style="color: #ff2c4b; font-weight: bold;">other-modules</span>:       Item
+                       , Direction
+                       , Room
+                       , Player
+</pre>
+</div>
+
+<p>
+I promise you'll get to leave this config file alone eventually.  For now we're
+doing a lot of building, so that means we have a fair amount of editing to do.
+But once it's set, it'll be set.
+</p>
+</div>
+
+<div id="outline-container-org7135a64" class="outline-4">
+<h4 id="org7135a64"><span class="section-number-4">3.8.1</span> Exercise: <code>Player</code></h4>
+<div class="outline-text-4" id="text-3-8-1">
+<p>
+Create a <code>Player</code> record type with two fields: <code>inventory</code> of type <code>[ItemName]</code>,
+<code>maxWeight</code> of type <code>Integer</code>, and <code>location</code> of type <code>RoomName</code>.  Add a
+deriving clause to the end of it like we've been doing for other datatypes so
+far:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #998f84;">-- </span><span style="color: #998f84;">...your datatype definition goes here...</span>
+<span style="color: #ff2c4b; font-weight: bold;">deriving</span> (<span style="color: #ff9eb8;">Show</span>, <span style="color: #ff9eb8;">Eq</span>)
+</pre>
+</div>
+
+
+<p>
+When you're done, you should be able to make a <code>Player</code> in the REPL like this:
+</p>
+
+<pre class="example" id="org5ed1cee">
+λ&gt; Player ["glove", "hat"] 75 "roofdeck"
+Player {inventory = ["glove","hat"], maxWeight = 75, location = "roofdeck"}
+</pre>
+
+<p>
+<code>Player</code> is the first datatype for which we'll need to write a suite of handy
+utility functions for use in the part of the code that's going to represent the
+state of the game, and how the state of the game will respond to user input.  In
+general, whenever you create a new datatype, it's good practice to put that
+datatype into its own module and start writing whatever utility functions it
+seems like you're going to need.  The exact ones you'll need to write from
+project to project will vary, but one traditional starting point for getting you
+thinking about this practice is: what getter and setter functions are you going
+to need?
+</p>
+
+<p>
+Luckily, Haskell automatically provides getter functions for us based on the
+record field names:
+</p>
+
+<pre class="example" id="org3749e43">
+λ&gt; p = Player ["glove", "hat"] 75 "roofdeck"
+λ&gt; location p
+"roofdeck"
+λ&gt; inventory p
+["glove","hat"]
+λ&gt; maxWeight p
+75
+λ&gt; :t location
+location :: Player -&gt; RoomName
+λ&gt; :t inventory
+inventory :: Player -&gt; [ItemName]
+</pre>
+
+<p>
+That will do for many purposes, but it doesn't mean we won't ever want to write
+a getter function.  For example, imagine you had a record type that went
+'several levels down'&#x2014;that is, a record type one of whose fields was a further
+record type.  You might want to write a simple function to help you pull the
+deeper value out in one step.  We won't be bothering with that right now, but
+once we get to the more complicated record types in this project, it's a good
+possible need to keep on the lookout for.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org27fe1f4" class="outline-4">
+<h4 id="org27fe1f4"><span class="section-number-4">3.8.2</span> Exercise: <code>addItem</code></h4>
+<div class="outline-text-4" id="text-3-8-2">
+<p>
+Ok, so the first of our setter functions is going to be <code>addItem</code>, which adds an
+item to a player's inventory.  Remember, we're doing everything totally pure!
+So no mutating.  Instead, the function is going to map an <code>ItemName</code> and a
+<code>Player</code> to a new <code>Player</code>, updated with that <code>ItemName</code> in their inventory:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">addItem</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">ItemName</span> <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Player</span> <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Player</span>
+</pre>
+</div>
+
+<p>
+Write a function with the above name and type signature that adds an <code>ItemName</code>
+to a player's inventory.  When you're done, you should be able to test it in the
+REPL like so:
+</p>
+
+<pre class="example" id="org7853eb2">
+λ&gt; i = Item "apple" 2
+λ&gt; p = Player ["glove", "hat"] 75 "roofdeck"
+λ&gt; addItem "apple" p
+Player {inventory = ["apple","glove","hat"], maxWeight = 75, location = "roofdeck"}
+λ&gt; addItem "pear" . addItem "apple" $ p
+Player {inventory = ["pear","apple","glove","hat"], maxWeight = 75, location = "roofdeck"}
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgac48216" class="outline-4">
+<h4 id="orgac48216"><span class="section-number-4">3.8.3</span> Exercise: <code>removeItem</code></h4>
+<div class="outline-text-4" id="text-3-8-3">
+<p>
+We'll also need a function to remove an item from a player's inventory.  (For
+example, if at some point we write a function for dropping an item, this
+function will be an important part of that.)
+</p>
+
+<p>
+Write a function called <code>removeItem</code> with the following type signature:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">removeItem</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">ItemName</span> <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Player</span> <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Player</span>
+</pre>
+</div>
+
+<p>
+<code>removeItem</code> is the complement to <code>addItem</code>; it takes an <code>ItemName</code> and a player
+as input and maps them to a new player with that <code>ItemName</code> removed from their
+inventory.  When you're done writing it, you should be able to test it like
+this:
+</p>
+
+<pre class="example" id="org0b95c9c">
+λ&gt; p = Player ["glove", "hat"] 75 "roofdeck"
+λ&gt; removeItem "glove" p
+Player {inventory = ["hat"], maxWeight = 75, location = "roofdeck"}
+</pre>
+
+
+<p>
+There are lots of different ways to write this function and you're welcome to
+take whatever approach you like.  But if you're looking for a simple utility
+function to help, I recommend taking a look at the <code>Data.List</code> module.
+<code>Data.List</code> comes with the <code>base</code> package, so you don't have to add anything to
+your <code>functional-adventure.cabal</code> project config file to be able to use it.  All
+you have to do is import it at the beginning of your <code>Player.hs</code> module, like
+this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ff2c4b; font-weight: bold;">module</span> <span style="color: #ff9eb8;">Player</span> <span style="color: #ff2c4b; font-weight: bold;">where</span>
+
+<span style="color: #ff2c4b; font-weight: bold;">import</span> <span style="color: #ff9eb8;">Item</span>
+<span style="color: #ff2c4b; font-weight: bold;">import</span> <span style="color: #ff9eb8;">Room</span>
+
+<span style="color: #ff2c4b; font-weight: bold;">import</span> <span style="color: #ff9eb8;">Data.List</span>
+
+<span style="color: #998f84;">-- </span><span style="color: #998f84;">... the rest of your code ...</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2355a78" class="outline-4">
+<h4 id="org2355a78"><span class="section-number-4">3.8.4</span> Exercise: <code>newLocation</code></h4>
+<div class="outline-text-4" id="text-3-8-4">
+<p>
+Next up is a function to change the location of the player.  This will be useful
+later on for when we write the code that will move the player.
+</p>
+
+<p>
+Write a function called <code>newLocation</code> with the following type signature:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">newLocation</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">RoomName</span> <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Player</span> <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Player</span>
+</pre>
+</div>
+
+<p>
+<code>newLocation</code> will take a room name and a player as input, and return a new
+player whose location has been updated to be that of the room named.  When
+you're done writing it, you should be able to test it in the REPL like so:
+</p>
+
+<pre class="example" id="org66112c3">
+λ&gt; p = Player ["glove", "hat"] 75 "roofdeck"
+λ&gt; p
+Player {inventory = ["glove","hat"], maxWeight = 75, location = "roofdeck"}
+λ&gt; newLocation "terrace" p
+Player {inventory = ["glove","hat"], maxWeight = 75, location = "terrace"}
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgd951b94" class="outline-4">
+<h4 id="orgd951b94"><span class="section-number-4">3.8.5</span> Exercise: <code>isCarryingAnything</code></h4>
+<div class="outline-text-4" id="text-3-8-5">
+<p>
+Write a function called <code>isCarryingAnything</code> with the following type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #ffa724;">isCarryingAnything</span> <span style="color: #ffa724;">::</span> <span style="color: #ff9eb8;">Player</span> <span style="color: #ffa724;">-&gt;</span> <span style="color: #ff9eb8;">Bool</span>
+</pre>
+</div>
+
+<p>
+<code>isCarryingAnything</code> maps a player to <code>True</code> if that player's
+inventory has something in it, and <code>False</code> otherwise.  When you're
+done, you should be able to test it in the REPL like this:
+</p>
+
+<pre class="example" id="orgb5c841c">
+λ&gt; p = Player [] 75 "roofdeck"
+λ&gt; p
+Player {inventory = [], maxWeight = 75, location = "roofdeck"}
+λ&gt; isCarryingAnything p
+False
+λ&gt; q = addItem "sword" p
+λ&gt; q
+Player {inventory = ["sword"], maxWeight = 75, location = "roofdeck"}
+λ&gt; isCarryingAnything q
+True
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org05249a2" class="outline-2">
+<h2 id="org05249a2"><span class="section-number-2">4</span> That's It!</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+We've now built out some of the core datatypes that are going to be used in this
+adventure game, along with some of the basic functions on them that the game is
+going to need.  Hopefully you'll be able to see some of the important parts of
+the game logic beginning to coalesce.
+</p>
+</div>
+
+<div id="outline-container-org9939e37" class="outline-3">
+<h3 id="org9939e37"><span class="section-number-3">4.1</span> Submitting</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Before submitting your project, make sure you have three directories
+within <code>assignment2</code>, one called <code>lab2</code> that looks like this:
+</p>
+
+<pre class="example" id="org3c12a88">
+$ tree lab2/
+lab2/
+├── lab2.cabal
+├── LICENSE
+├── README.md
+├── Setup.hs
+├── src
+│   └── Main.hs
+├── stack.yaml
+└── stack.yaml.lock
+</pre>
+
+<p>
+One called <code>exercises2</code> that looks like this:
+</p>
+
+<pre class="example" id="org0e24503">
+$ tree exercises2/
+exercises2/
+├── exercises2.cabal
+├── LICENSE
+├── README.md
+├── Setup.hs
+├── src
+│   └── Main.hs
+└── stack.yaml
+</pre>
+
+<p>
+And one called <code>functional-adventure</code> that looks like this:
+</p>
+
+<pre class="example" id="orgb7d7bbc">
+$ tree functional-adventure/
+functional-adventure/
+├── LICENSE
+├── README.md
+├── Setup.hs
+├── functional-adventure.cabal
+├── src
+│   ├── Direction.hs
+│   ├── Item.hs
+│   ├── Main.hs
+│   ├── Player.hs
+│   └── Room.hs
+├── stack.yaml
+└── stack.yaml.lock
+</pre>
+
+<p>
+This is required for full credit.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Matt Teichman</p>
+<p class="date">Created: 2021-10-10 Sun 14:39</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

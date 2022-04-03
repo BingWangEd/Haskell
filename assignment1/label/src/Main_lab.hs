@@ -19,7 +19,7 @@ addThenDouble n m = (n + m) * 2
 -- addThenDouble = \n m -> (n + m) * 2
 
 justAdd :: Integer -> Integer -> Integer
-justAdd n m = addThenDouble n m `div` 2
+justAdd n m = addThenDouble n m `div` 2 -- the backtick turns a name to an infix operator
 
 double :: Integer -> Integer
 double n = (*) n 2
@@ -113,6 +113,7 @@ length' list = foldl plusOne 0 list
                where plusOne acc v2 = acc + 1
 
 -- 1.2.4
+-- Eq a here is like the genetic type in TS Func<T ...>
 elem :: Eq a => a -> [a] -> Bool
 elem v [] = False
 elem v (hd : rm) = if v == hd then True
