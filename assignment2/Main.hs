@@ -45,6 +45,16 @@ zipTrees tree1 tree2 = if l1 > l2 then zip tree1 (tree2 ++ replicate (l1 - l2) (
                           where l1 = length tree1
                                 l2 = length tree2
 
+-- 1.2.1 treeInsert
+treeInsert :: Tree Integer -> [Int] -> Tree Integer -> Tree Integer
+treeInsert toInsert [] tree = toInsert
+treeInsert toInsert (lh:lt) (Node root trees) = if lh >= length trees then treeInsert (Node root trees) [] (Node root trees)
+                                                else Node root (replaceH lh trees)
+                                                  where helper i = if i == lh then treeInsert toInsert lt (trees !! i) else trees !! i
+                                                        replaceH n list = map helper [0 .. length trees - 1]
+tree4 = Node 1 [Node 2 [Node 3 [Node 4 [Node 5 [], Node 6 [], Node 7 []]]], Node 8 []]
+
+
 main :: IO ()
 main = do
   putStrLn "hello world"
